@@ -1,0 +1,17 @@
+export const DarkPrimary = '#D32F2F';
+export const Primary = '#F44336';
+export const LightPrimary = '#FFCDD2';
+export const Text = '#FFFFFF';
+export const Icon = '#FFFFFF';
+export const Accent = '#FFC107';
+export const Inactive = '#BDBDBD';
+export const PrimaryText = '#212121';
+export const SecondaryText = '#757575';
+export const Devider = '#BfBfBf';
+export const Surface = '#FFFFFF';
+export const OnPrimary = '#FFFFFF';
+export const DarkBackground = '#f2f2f2';
+export const Success = '#4BB543';
+export const Warning = '#FFCC00';
+export const Error = '#CC3300';
+export const Info = '#3498DB';
