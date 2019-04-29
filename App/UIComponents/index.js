@@ -6,6 +6,7 @@ import TouchableOpacity from './touchableOpacity.component';
 import ScrollView from './scrollView.component';
 import TextInput from './textInput.component';
 import FlatList from './flatList.component';
+import TouchableHighlight from './touchableHighlight.component';
 
 export {
     View,
@@ -14,5 +15,6 @@ export {
     TouchableOpacity,
     ScrollView,
     TextInput,
-    FlatList
+    FlatList,
+    TouchableHighlight
 }
