@@ -1,4 +1,4 @@
-import { GET_HOTELS, GET_HOTEL_DETAIL } from "../Constants/action.constants";
+import { GET_HOTELS, GET_HOTEL_DETAIL, GET_HOTELS_PRICE } from "../Constants/action.constants";
 
 export const GetHotelsAction = () => ({
     type: GET_HOTELS,

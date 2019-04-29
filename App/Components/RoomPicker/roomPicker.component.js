@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, Modal } from 'react-native';
-import { View, Text } from '../../UIComponents';
-import { SecondaryText } from '../../Theme/colors';
+import { Ionicons } from '@expo/vector-icons';
+
+import { View, Text, TextInput, TouchableOpacity, FlatList, Button } from '../../UIComponents';
+import { SecondaryText, Primary, OnPrimary } from '../../Theme/colors';
+import { normalize } from '../../Utils/dimensionHandler.utils';
+import cities from '../../Mock/cities';
+import ListItem from '../ListItem/listItem.component';
+import gStyle from '../../Theme/styles';
 
 class RoomPicker extends Component {
     constructor(props) {
@@ -18,12 +24,16 @@ class RoomPicker extends Component {
         this.setState({ modalVisible: visible });
     }
 
+    getContent = () => {
+        return `${this.state.adults} Adults, ${this.state.rooms} Rooms`;
+    }
+
     getTitleElement() {
         const { customStyles = {}, allowFontScaling } = this.props;
 
         return (
             <Text allowFontScaling={allowFontScaling} style={[styles.contentText, customStyles.contentText]}>
-                {`${this.state.adults} Adults, ${this.state.rooms} Rooms`}
+                {this.getContent()}
             </Text>
         );
     }
@@ -31,7 +41,19 @@ class RoomPicker extends Component {
     RenderRoomPicker = () => {
         return (
             <View style={{ flex: 1 }} >
-                <Text>dsd</Text>
+                <Button
+                    type='icon-button'
+                    iconName="md-close"
+                    iconSize={32}
+                    iconColor={OnPrimary}
+                    buttonStyle={{ position: 'absolute', top: 40, right: 20, zIndex: 2 }}
+                    onPress={() => this.setModalVisible(false)}
+                />
+                <View style={styles.searchWrapper} >
+                    <View style={{ flex: 1, padding: 15, alignItems: 'flex-start', justifyContent: 'flex-end' }} >
+                        <Text style={[gStyle.h2, gStyle.bold, gStyle.onPrimary]} >{this.getContent()}</Text>
+                    </View>
+                </View>
             </View>
         )
     }
@@ -83,10 +105,13 @@ const styles = {
     },
     stylish: {
         height: 48,
-        borderColor: '#bdbdbd',
-        borderWidth: 2,
         borderRadius: 32,
-    }
+        backgroundColor: '#fff'
+    },
+    searchWrapper: {
+        height: normalize(120),
+        backgroundColor: Primary
+    },
 }
 
 export default RoomPicker;

@@ -7,6 +7,8 @@ import ScrollView from './scrollView.component';
 import TextInput from './textInput.component';
 import FlatList from './flatList.component';
 import TouchableHighlight from './touchableHighlight.component';
+import Button from './button.component';
+import Tag from './tag.component';
 
 export {
     View,
@@ -16,5 +18,7 @@ export {
     ScrollView,
     TextInput,
     FlatList,
-    TouchableHighlight
+    TouchableHighlight,
+    Button,
+    Tag
 }

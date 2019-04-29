@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, Modal } from 'react-native';
-import { View, Text } from '../../UIComponents';
-import { SecondaryText } from '../../Theme/colors';
+import { Ionicons } from '@expo/vector-icons';
+
+import { View, Text, TextInput, TouchableOpacity, FlatList, Button } from '../../UIComponents';
+import { SecondaryText, Primary, OnPrimary } from '../../Theme/colors';
+import { normalize } from '../../Utils/dimensionHandler.utils';
+import cities from '../../Mock/cities';
+import ListItem from '../ListItem/listItem.component';
 
 class CityPicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
             modalVisible: false,
-            showContent: false,
+            showContent: !!props.city,
+            searchText: '',
             selected: ''
         }
     }
@@ -47,10 +53,45 @@ class CityPicker extends Component {
         )
     }
 
+    citySelect = (city) => {
+        this.props.callback(city);
+        this.setState({ selected: city, showContent: true })
+        this.setModalVisible(false)
+    }
+
     RenderCities = () => {
         return (
             <View style={{ flex: 1 }} >
-                <Text>cities</Text>
+                <Button
+                    type='icon-button'
+                    iconName="md-close"
+                    iconSize={32}
+                    iconColor={OnPrimary}
+                    buttonStyle={{ position: 'absolute', top: 40, right: 20, zIndex: 2 }}
+                    onPress={() => this.setModalVisible(false)}
+                />
+                <View style={styles.searchWrapper} >
+                    <View style={{ flex: 1, padding: 15, alignItems: 'flex-start', justifyContent: 'flex-end' }} >
+                        <TextInput
+                            placeholderTextColor={'rgba(255,255,255, 0.5)'}
+                            placeholder="Enter destination"
+                            value={this.state.searchText}
+                            onChangeText={(searchText) => this.setState({ searchText })}
+                            style={styles.textInput}
+                        />
+                    </View>
+                </View>
+                {
+                    cities.map((item, index) => {
+                        return (
+                            <ListItem
+                                key={index}
+                                label={item.label}
+                                onPress={() => this.citySelect(item.value)}
+                            />
+                        )
+                    })
+                }
             </View>
         )
     }
@@ -102,9 +143,18 @@ const styles = {
     },
     stylish: {
         height: 48,
-        borderColor: '#bdbdbd',
-        borderWidth: 2,
         borderRadius: 32,
+        backgroundColor: '#fff'
+    },
+    searchWrapper: {
+        height: normalize(120),
+        backgroundColor: Primary
+    },
+    textInput: {
+        backgroundColor: 'transparent',
+        fontWeight: '500',
+        fontSize: 22,
+        color: OnPrimary
     }
 }
 

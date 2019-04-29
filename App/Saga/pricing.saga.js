@@ -6,6 +6,7 @@ import Api from '../Api/index.api';
 function* fetchHotels() {
     yield put({ type: LOADING_HOTELS_PRICE, payload: true });
     const result = yield Api.GetHotelPricing();
+    yield put({ type: LOADING_HOTELS_PRICE, payload: false });
     yield put({ type: SET_HOTELS_PRICE, payload: result.data })
 }
 

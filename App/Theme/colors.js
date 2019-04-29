@@ -1,6 +1,5 @@
-export const DarkPrimary = '#D32F2F';
-export const Primary = '#F44336';
-export const LightPrimary = '#FFCDD2';
+export const Primary = '#16a085';
+export const Secondary = '#e74c3c';
 export const Text = '#FFFFFF';
 export const Icon = '#FFFFFF';
 export const Accent = '#FFC107';

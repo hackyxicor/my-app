@@ -1,135 +1,64 @@
-import { Dimensions, Platform, PixelRatio } from 'react-native';
-
-const { height, width } = Dimensions.get('window');
-const scale = width / 360;
-
-/*
-Implements utility functions to be used across project for relative dimensions
-*/
-
-/**
- * @param  {number} value
- * Calculates the relative dp for the absolute values given to stylesheet fields
- *  in vertical orientations (eg. Height, MarginTop, MarginBottom, PaddingTop, PaddingBottom)
- */
-export function getRelativeSizeHeight(value) {
-    const screenHeight = height;
-    // 592 is the height of Google pixel screen
-    // 736 is the height of iPhone 8 plus screen
-    return (value * (screenHeight / 592));
-}
-
-/**
- * @param  {number} value
- * Calculates the relative dp for the absolute values given to stylesheet fields
- *  in horizontal orientations (eg. Width, MarginLeft, MarginRight, PaddingLeft, PaddingRight)
- */
-export function getRelativeSizeWidth(value) {
-    const screenWidth = width;
-    // 360 is the width of Google pixel screen
-    // 414 is the width of iPhone 8 plus screen
-    return (value * (screenWidth / 360));
-}
-
-/**
- * @param  {} stylesObj object containing all the style fields
- * this function converts all the style values to relative values according to 
- * the screen size and returns the style Object with new values
- */
-export function resizeStyleObj(stylesObj) {
-    let newStylesObj = stylesObj;
-
-    //Converts common orientation values to relative according to the horizontal screen size.
-    const commonStyleProps = ['margin', 'padding', 'borderRadius', 'borderTopLeftRadius', 'borderBottomRightRadius', 'borderTopRightRadius', 'borderBottomLeftRadius'];
-
-    commonStyleProps.forEach((element) => {
-        if (newStylesObj.hasOwnProperty(element)) {
-            newStylesObj[element] = Math.ceil(getRelativeSizeHeight(newStylesObj[element]));
-        }
-    });
-
-    //fontSize fix
-    if (newStylesObj.hasOwnProperty('fontSize')) {
-        newStylesObj.fontSize = normalize(newStylesObj.fontSize);
-    }
-
-    //borderRadius fix
-    // if (newStylesObj.hasOwnProperty('borderRadius')) {
-    //     if (Platform.OS == 'ios' && height >= 812) {
-    //         newStylesObj.borderRadius = 5;
-    //     }
-    // }
-    const isSameHeightWidth = (newStylesObj.hasOwnProperty('height') && newStylesObj.hasOwnProperty('width') && newStylesObj.height == newStylesObj.width);
-    if (isSameHeightWidth) {
-        newStylesObj['height'] = getRelativeSizeHeight(newStylesObj['height']);
-        newStylesObj['width'] = getRelativeSizeHeight(newStylesObj['width']);
-    }
-
-
-    //Converts absolute height, padding and margin values to relative according to the vertical screen size.
-    let verticalStyleProps = ['height', 'marginTop', 'marginBottom', 'paddingTop', 'paddingBottom'];
-
-    //Converts absolute width, padding and margin values to relative according to the horizontal screen size.
-    let horizontalStyleProps = ['width', 'paddingLeft', 'paddingRight', 'marginLeft', 'marginRight'];
-
-    if (isSameHeightWidth) {
-        verticalStyleProps = verticalStyleProps.filter((element) => element != 'height');
-        horizontalStyleProps = horizontalStyleProps.filter((element) => element != 'width');
-    }
-
-    verticalStyleProps.forEach((element) => {
-        if (newStylesObj.hasOwnProperty(element)) {
-            newStylesObj[element] = getRelativeSizeHeight(newStylesObj[element]);
-        }
-    });
-
-    horizontalStyleProps.forEach((element) => {
-        if (newStylesObj.hasOwnProperty(element)) {
-            newStylesObj[element] = getRelativeSizeWidth(newStylesObj[element]);
-        }
-    });
-
-    // if (newStylesObj.hasOwnProperty('elevation') && Platform.OS === 'ios') {
-    //     newStylesObj.shadowOffset = { width: 0, height: 0, };
-    //     newStylesObj.shadowColor = GLOBAL.COLORS.BORDER_GREY_COLOR;
-    //     newStylesObj.shadowOpacity = 1.0;
-    // }
-
-    return newStylesObj;
-}
-
-
-/**
- * @param  {} styleObj Object containing style elements
- * Function that takes in style object in various structures
- * and returns a suitable object
- */
-export function StyleObjectFilter(styleObj) {
-    if (!Array.isArray(styleObj) && styleObj && typeof styleObj == 'object') {
-        newStylesObj = { ...{}, ...styleObj };
-    } else {
-        newStylesObj = styleObj;
-    }
-    return newStylesObj;
-}
-
-export function Stylify(style = {}) {
-    return StyleObjectFilter(resizeStyleObj(Object.assign({}, style)));
-}
+import {
+    PixelRatio,
+    Dimensions,
+} from 'react-native';
+const pixelRatio = PixelRatio.get();
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 
 export function normalize(size) {
-    if (scale > 2) {
-        if (size <= 10) {
-            size *= scale;
-        } else {
-            size *= 2;
+    if (pixelRatio === 2) {
+        // iphone 5s and older Androids
+        if (deviceWidth < 360) {
+            return size * 0.95;
         }
+        // iphone 5
+        if (deviceHeight < 667) {
+            return size;
+            // iphone 6-6s
+        } else if (deviceHeight >= 667 && deviceHeight <= 735) {
+            return size * 1.15;
+        }
+        // older phablets
+        return size * 1.25;
     }
-    else {
-        size *= scale;
+    if (pixelRatio === 3) {
+        // catch Android font scaling on small machines
+        // where pixel ratio / font scale ratio => 3:3
+        if (deviceWidth <= 360) {
+            return size;
+        }
+        // Catch other weird android width sizings
+        if (deviceHeight < 667) {
+            return size * 1.15;
+            // catch in-between size Androids and scale font up
+            // a tad but not too much
+        }
+        if (deviceHeight >= 667 && deviceHeight <= 735) {
+            return size * 1.2;
+        }
+        // catch larger devices
+        // ie iphone 6s plus / 7 plus / mi note 等等
+        return size * 1.27;
     }
-    if (Platform.OS === 'ios') {
-        return Math.round(PixelRatio.roundToNearestPixel(size));
+    if (pixelRatio === 3.5) {
+        // catch Android font scaling on small machines
+        // where pixel ratio / font scale ratio => 3:3
+        if (deviceWidth <= 360) {
+            return size;
+            // Catch other smaller android height sizings
+        }
+        if (deviceHeight < 667) {
+            return size * 1.20;
+            // catch in-between size Androids and scale font up
+            // a tad but not too much
+        }
+        if (deviceHeight >= 667 && deviceHeight <= 735) {
+            return size * 1.25;
+        }
+        // catch larger phablet devices
+        return size * 1.40;
     }
-    return Math.round(PixelRatio.roundToNearestPixel(size)) - 2;
-}
+    // if older device ie pixelRatio !== 2 || 3 || 3.5
+    return size;
+};

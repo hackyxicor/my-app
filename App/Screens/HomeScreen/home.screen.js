@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 
-import { View, TextInput } from '../../UIComponents';
+import { View, TextInput, ScrollView } from '../../UIComponents';
 
 import { GetHotelsAction } from '../../Actions/index.actions';
 
@@ -28,19 +28,30 @@ class HomeScreen extends Component {
         this.props.GetHotels();
     }
 
-    render() {
-        const { checkIn, checkOut, city } = this.state;
-        console.log('fufufu')
-        console.log(this.props);
+    setItem = (key, value) => {
+        this.setState({ [key]: value });
+    }
 
+    search = () => {
+        this.props.navigation.navigate('HotelList', { title: this.state.city });
+    }
+
+    render() {
+        console.log(this.state);
         return (
-            <SafeAreaView style={{ flex: 1 }}>
-                <View style={styles.container} >
-                    <BookingSection 
-                        
-                    />
-                </View>
-            </SafeAreaView>
+            <ScrollView
+                style={styles.container}
+            >
+                <BookingSection
+                    city={this.state.city}
+                    checkIn={this.state.checkIn}
+                    checkOut={this.state.checkOut}
+                    rooms={this.state.rooms}
+                    callback={this.setItem}
+                    search={this.search}
+                />
+                <View style={{ height: 1000 }} />
+            </ScrollView>
         )
     }
 }
@@ -49,18 +60,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    bookingPanelWrapper: {
-        padding: 10,
-    },
-    dateTimePicker: {
-        height: 50
-    },
-    inputBox: {
-        borderWidth: 2,
-        borderColor: Inactive,
-        borderRadius: 30,
-        height: 50
-    }
 })
 
 const mapStateToProps = (state) => ({

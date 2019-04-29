@@ -2,13 +2,15 @@ import React from 'react';
 import { createBottomTabNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
 import { AntDesign } from '@expo/vector-icons';
 
-import { PrimaryColor, Devider, Accent } from '../Theme/colors';
+import { Primary, Devider, Accent } from '../Theme/colors';
 
 //Import Screens
 
-//Tabs
+//Screens
 import HomeScreen from '../Screens/HomeScreen/home.screen';
 import BlankScreen from '../Screens/BlankScreen/blank.screen';
+import HotelListScreen from '../Screens/HotelListingScreen/hotelListing.screen';
+
 import { Inactive } from '../Constants/async.constants';
 
 const TabNavigator = createBottomTabNavigator(
@@ -40,11 +42,11 @@ const TabNavigator = createBottomTabNavigator(
             },
         }),
         tabBarOptions: {
-            activeTintColor: PrimaryColor,
+            activeTintColor: Primary,
             inactiveTintColor: Inactive,
             allowFontScaling: false,
             showLabel: false,
-            pressColor: PrimaryColor,
+            pressColor: Primary,
             tabStyle: {
             },
             style: {
@@ -59,6 +61,12 @@ const RootNavigator = createStackNavigator(
             screen: TabNavigator,
             navigationOptions: {
                 header: null
+            }
+        },
+        HotelList: {
+            screen: HotelListScreen,
+            navigationOptions: {
+
             }
         }
     },

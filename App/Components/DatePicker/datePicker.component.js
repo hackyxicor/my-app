@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import DatePicker from 'react-native-date-ranges';
-import { SecondaryText } from '../../Theme/colors';
+import { SecondaryText, Primary } from '../../Theme/colors';
+import { Button } from '../../UIComponents';
 
 class DatePickerButton extends PureComponent {
     constructor(props) {
@@ -13,13 +14,20 @@ class DatePickerButton extends PureComponent {
             <DatePicker
                 customStyles={{
                     placeholderText: { fontSize: 20 },
-                    headerStyle: { fontSize: 20 },
+                    headerStyle: { backgroundColor: Primary },
                     headerMarkTitle: { fontSize: 20 },
                     headerDateTitle: {},
-                    contentInput: {},
-                    contentText: {},
+                    contentInput: {
+                        height: 48,
+                        borderRadius: 32,
+                        backgroundColor: '#fff'
+                    },
+                    contentText: {
+                        fontSize: 16,
+                        color: SecondaryText
+                    },
                     placeholderText: {
-                        fontSize: 18,
+                        fontSize: 16,
                         color: SecondaryText
                     }
                 }}
@@ -27,8 +35,8 @@ class DatePickerButton extends PureComponent {
                 allowFontScaling={false}
                 placeholder={'Checkin → Checkout'}
                 mode={'range'}
-                markText="Select pickup date"
-                ButtonText="Proceed"
+                markText=""
+                customButton={(onConfirm) => <Button buttonContent="Proceed" type="bottom-stick" onPress={onConfirm} />}
             />
         )
     }
