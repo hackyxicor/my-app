@@ -16,6 +16,9 @@ module.exports = {
     h5: {
         fontSize: 16,
     },
+    h6: {
+        fontSize: 14,
+    },
     h7: {
         fontSize: 12
     },

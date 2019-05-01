@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Placeholder, { Line, Media } from "rn-placeholder";
 
 import { FlatList, View } from '../../UIComponents';
 import HotelCard from '../../Components/HotelCard/hotelCard.component';
 import { GetHotelsAction } from '../../Actions/index.actions';
-import { Inactive } from '../../Theme/colors';
 import { AccessNestedObject } from '../../Utils/common.utils';
-import HotelCardPlacehodler from '../../Components/HotelCard/hotelCard.placeholder';
 import HotelListingPlaceholder from './hotelListing.placeholder';
 
 class HotelsListScreen extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: AccessNestedObject(navigation, 'state.params.title', ''),
     });
-
-    constructor(props) {
-        super(props)
-    }
 
     componentDidMount = () => {
         this.props.GetHotelsAction();

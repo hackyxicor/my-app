@@ -67,7 +67,7 @@ class HomeScreen extends Component {
                     callback={this.setItem}
                     search={this.search}
                 />
-                <View style={{ height: 1000 }} />
+                <View style={{ height: 500 }} />
             </ScrollView>
         )
     }

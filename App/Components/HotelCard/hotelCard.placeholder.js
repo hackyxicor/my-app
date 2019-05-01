@@ -32,7 +32,7 @@ const HotelCardPlacehodler = () => (
                 <Line style={{ width: "100%", selfAlign: 'flex-end' }} />
             </View>
         </View>
-        <Line style={{ backgroundColor: Inactive, width: "100%", height: 45 }} />
+        <Line style={{ backgroundColor: Inactive, width: "100%", height: 55 }} />
     </View>
 )
 

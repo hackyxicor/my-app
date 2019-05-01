@@ -22,7 +22,7 @@ class ImageCarouselComponent extends PureComponent {
     renderContent = (idx) => {
         const { images } = this.props;
         return (
-            <View style={styles.container}>
+            <View key={idx} style={styles.container}>
                 <Image
                     style={styles.image}
                     source={{ uri: images[idx] }}
@@ -44,9 +44,9 @@ class ImageCarouselComponent extends PureComponent {
                 hideStatusBarOnOpen
                 {...this.props}
             >
-                {images.map((image) => (
+                {images.map((image, index) => (
                     <Image
-                        key={image}
+                        key={index}
                         style={styles.image}
                         source={{ uri: image }}
                     />

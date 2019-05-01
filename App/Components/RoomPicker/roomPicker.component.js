@@ -6,12 +6,13 @@ import { SecondaryText, Primary, OnPrimary, Secondary } from '../../Theme/colors
 import { normalize } from '../../Utils/dimensionHandler.utils';
 import gStyle from '../../Theme/styles';
 import RoomComponent from '../RoomComponent/room.component';
+import { GetRoomContentFromRooms } from '../../Utils/common.utils';
 
 class RoomPicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalVisible: true,
+            modalVisible: false,
             rooms: this.props.rooms
         }
     }
@@ -22,17 +23,7 @@ class RoomPicker extends Component {
 
     getContent = () => {
         const { rooms } = this.state;
-        let adults = 0;
-        let child = 0;
-
-        rooms.forEach((room) => {
-            if (room && typeof room == 'object') {
-                adults += room.adult;
-                child += room.child;
-            }
-        })
-
-        return `${adults} Adults, ${child > 0 ? `${child} Children` : ''} ${this.state.rooms.length} Rooms`;
+        return GetRoomContentFromRooms(rooms);
     }
 
     getTitleElement() {
@@ -111,18 +102,18 @@ class RoomPicker extends Component {
                     }}
                 />
                 <Button
-                    buttonContent="Proceed"
-                    type="bottom-stick"
-                    onPress={() => this.setModalVisible(false)}
-                    buttonStyle={{ position: 'absolute', top: normalize(570), right: 0, zIndex: 2 }}
-                />
-                <Button
                     type='fab'
                     iconName="ios-add"
                     iconSize={32}
                     iconColor={OnPrimary}
                     buttonStyle={{ position: 'absolute', top: normalize(520), right: 20, zIndex: 2 }}
                     onPress={this.addRoom}
+                />
+                <Button
+                    buttonContent="Proceed"
+                    type="bottom-stick"
+                    onPress={() => this.setModalVisible(false)}
+                    buttonStyle={{ position: 'absolute', top: normalize(570), right: 0, zIndex: 2 }}
                 />
             </View>
         )

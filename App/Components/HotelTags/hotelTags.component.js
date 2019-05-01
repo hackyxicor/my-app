@@ -7,7 +7,7 @@ const HotelTags = ({ tags, newLine = false, containerStyle }) => (
         <FlatList
             horizontal={!newLine}
             data={tags}
-            renderItem={({ item }) => <Tag label={item} />}
+            renderItem={({ item, index }) => <Tag key={index} label={item} />}
         />
     </View>
 )

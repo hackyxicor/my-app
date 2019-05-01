@@ -1,3 +1,6 @@
+import moment from 'moment';
+import GLOBAL from '../Constants/global.constants';
+
 export function GetHotelPrice(pricing) {
     if (!(pricing && typeof pricing == 'object')) {
         return null
@@ -30,4 +33,22 @@ export function AccessNestedObject(obj, path, valueNotFound = undefined) {
     }
 
     return path.reduce((xs, x) => (xs && xs[x]) ? xs[x] : valueNotFound, obj)
+}
+
+export function GetRoomContentFromRooms(rooms) {
+    let adults = 0;
+    let child = 0;
+
+    rooms.forEach((room) => {
+        if (room && typeof room == 'object') {
+            adults += room.adult;
+            child += room.child;
+        }
+    })
+
+    return `${adults} Adults, ${child > 0 ? `${child} Children` : ''} ${rooms.length} Rooms`;
+}
+
+export function DisplayDate(date) {
+    return moment(date, GLOBAL.API_DATE_FORMAT).format(GLOBAL.DISPLAY_DATE_FORMAT)
 }
