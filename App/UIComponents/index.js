@@ -9,6 +9,7 @@ import FlatList from './flatList.component';
 import TouchableHighlight from './touchableHighlight.component';
 import Button from './button.component';
 import Tag from './tag.component';
+import TouchableWithoutFeedback from './touchableWithoutFeedback.component';
 
 export {
     View,
@@ -20,5 +21,6 @@ export {
     FlatList,
     TouchableHighlight,
     Button,
-    Tag
+    Tag,
+    TouchableWithoutFeedback
 }

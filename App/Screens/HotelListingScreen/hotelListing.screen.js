@@ -4,12 +4,15 @@ import Placeholder, { Line, Media } from "rn-placeholder";
 
 import { FlatList, View } from '../../UIComponents';
 import HotelCard from '../../Components/HotelCard/hotelCard.component';
-import { GetHotelsAction, GetHotelsPricingAction } from '../../Actions/index.actions';
+import { GetHotelsAction } from '../../Actions/index.actions';
 import { Inactive } from '../../Theme/colors';
+import { AccessNestedObject } from '../../Utils/common.utils';
+import HotelCardPlacehodler from '../../Components/HotelCard/hotelCard.placeholder';
+import HotelListingPlaceholder from './hotelListing.placeholder';
 
 class HotelsListScreen extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: `${navigation.state.params.title}`,
+        title: AccessNestedObject(navigation, 'state.params.title', ''),
     });
 
     constructor(props) {
@@ -18,7 +21,6 @@ class HotelsListScreen extends Component {
 
     componentDidMount = () => {
         this.props.GetHotelsAction();
-        this.props.GetHotelsPricingAction();
     }
 
     renderHotel = ({ item, index }) => {
@@ -28,8 +30,13 @@ class HotelsListScreen extends Component {
                 hotel={item}
                 pricingLoading={this.props.loadingPricing}
                 pricing={this.props.pricing[index]}
+                book={this.book}
             />
         )
+    }
+
+    book = (hotel) => {
+        this.props.navigation.navigate('Hotel', { hotel });
     }
 
     renderList = () => {
@@ -42,42 +49,13 @@ class HotelsListScreen extends Component {
         )
     }
 
-    renderPlaceholder = () => {
-        return (
-            <Placeholder
-                animation="fade"
-                isReady={!this.props.loadingHotels}
-                whenReadyRender={this.renderList}
-            >
-                <View style={{ flex: 1, alignItems: 'center', padding: 20 }} >
-                    <Line width="70%" />
-                    <Line style={{ backgroundColor: Inactive, width: "22%" }} />
-                    <Line />
-                    <Line width="30%" />
-                    <Line width="70%" />
-                    <Line style={{ backgroundColor: Inactive, width: "22%" }} />
-                    <Line />
-                    <Line width="30%" />
-                    <Line width="70%" />
-                    <Line style={{ backgroundColor: Inactive, width: "22%" }} />
-                    <Line />
-                    <Line width="30%" />
-                    <Line width="70%" />
-                    <Line style={{ backgroundColor: Inactive, width: "22%" }} />
-                    <Line />
-                    <Line width="30%" />
-                    <Line width="70%" />
-                    <Line style={{ backgroundColor: Inactive, width: "22%" }} />
-                    <Line />
-                </View>
-            </Placeholder>
-        )
-    }
-
     render() {
         return (
             <View style={{ flex: 1, }} >
-                <this.renderPlaceholder />
+                <HotelListingPlaceholder
+                    isReady={!this.props.loadingHotels}
+                    whenReadyRender={this.renderList}
+                />
             </View>
         )
     }
@@ -90,4 +68,4 @@ const mapStateToProps = (state) => ({
     loadingPricing: state.pricingStore.loading
 })
 
-export default connect(mapStateToProps, { GetHotelsAction, GetHotelsPricingAction })(HotelsListScreen);
+export default connect(mapStateToProps, { GetHotelsAction })(HotelsListScreen);

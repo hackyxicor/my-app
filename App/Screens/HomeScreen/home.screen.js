@@ -1,35 +1,40 @@
 import React, { Component } from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import { View, TextInput, ScrollView } from '../../UIComponents';
+import { View, ScrollView } from '../../UIComponents';
 
 import { GetHotelsAction } from '../../Actions/index.actions';
+import {
+    SetCity,
+    SetCheckinDate,
+    SetCheckoutDate,
+    SetRooms,
+} from '../../Actions/index.actions';
 
-
-import DatePicker from '../../Components/DatePicker/datePicker.component';
-import { Inactive } from '../../Theme/colors';
-import CityPicker from '../../Components/CityPicker/cityPicker.component';
-import RoomPicker from '../../Components/RoomPicker/roomPicker.component';
 import BookingSection from '../../Components/BookingSection/bookingSection.component';
 
 class HomeScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            city: '',
-            checkIn: 'Checkin',
-            checkOut: 'Checkout',
-            rooms: {}
-        }
-    }
-
     componentDidMount() {
         this.props.GetHotels();
     }
 
     setItem = (key, value) => {
-        this.setState({ [key]: value });
+        switch (key) {
+            case 'city':
+                this.props.SetCity(value);
+                break;
+            case 'checkIn':
+                this.props.SetCheckinDate(value);
+                break;
+            case 'checkOut':
+                this.props.SetCheckoutDate(value);
+                break;
+            case 'rooms':
+                this.props.SetRooms(value);
+                break;
+            default:
+        }
     }
 
     search = () => {
@@ -37,16 +42,16 @@ class HomeScreen extends Component {
     }
 
     render() {
-        console.log(this.state);
+        const { city, checkinDate, checkoutDate, rooms } = this.props.booking;
         return (
             <ScrollView
                 style={styles.container}
             >
                 <BookingSection
-                    city={this.state.city}
-                    checkIn={this.state.checkIn}
-                    checkOut={this.state.checkOut}
-                    rooms={this.state.rooms}
+                    city={city}
+                    checkIn={checkinDate}
+                    checkOut={checkoutDate}
+                    rooms={rooms}
                     callback={this.setItem}
                     search={this.search}
                 />
@@ -64,7 +69,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
     hotels: state.hotelsStore.hotels,
-    loading: state.hotelsStore.loading
+    loading: state.hotelsStore.loading,
+    booking: state.bookingStore
 })
 
-export default connect(mapStateToProps, { GetHotels: GetHotelsAction })(HomeScreen);
+export default connect(mapStateToProps, {
+    GetHotels: GetHotelsAction,
+    SetCity,
+    SetCheckinDate,
+    SetCheckoutDate,
+    SetRooms,
+})(HomeScreen);

@@ -12,6 +12,7 @@ import BlankScreen from '../Screens/BlankScreen/blank.screen';
 import HotelListScreen from '../Screens/HotelListingScreen/hotelListing.screen';
 
 import { Inactive } from '../Constants/async.constants';
+import HotelScreen from '../Screens/HotelScreen/hotel.screen';
 
 const TabNavigator = createBottomTabNavigator(
     {
@@ -65,9 +66,11 @@ const RootNavigator = createStackNavigator(
         },
         HotelList: {
             screen: HotelListScreen,
-            navigationOptions: {
-
-            }
+            navigationOptions: {}
+        },
+        Hotel: {
+            screen: HotelScreen,
+            navigationOptions: {}
         }
     },
     {

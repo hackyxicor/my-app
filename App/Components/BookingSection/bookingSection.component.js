@@ -32,6 +32,7 @@ class BookingSection extends Component {
                             checkIn={this.props.checkIn}
                             checkOut={this.props.checkOut}
                             style={styles.dateTimePicker}
+                            callback={this.props.callback}
                         />
                     </View>
                     <View style={{ padding: 5 }} >

@@ -9,7 +9,6 @@ class DatePickerButton extends PureComponent {
     }
 
     render() {
-        console.log(this.props);
         return (
             <DatePicker
                 customStyles={{
@@ -35,8 +34,12 @@ class DatePickerButton extends PureComponent {
                 allowFontScaling={false}
                 placeholder={'Checkin → Checkout'}
                 mode={'range'}
-                markText=""
+                markText=" "
                 customButton={(onConfirm) => <Button buttonContent="Proceed" type="bottom-stick" onPress={onConfirm} />}
+                onConfirm={(dates) => {
+                    this.props.callback('checkIn', dates.startDate)
+                    this.props.callback('checkOut', dates.endDate)
+                }}
             />
         )
     }
