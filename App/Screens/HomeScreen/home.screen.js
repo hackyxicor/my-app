@@ -38,7 +38,19 @@ class HomeScreen extends Component {
     }
 
     search = () => {
-        this.props.navigation.navigate('HotelList', { title: this.state.city });
+        const { city, checkinDate, checkoutDate } = this.props.booking;
+
+        if (!city) {
+            alert('Please select city');
+            return;
+        }
+
+        if (!checkinDate || !checkoutDate) {
+            alert('Please checkin/checkout dates');
+            return;
+        }
+
+        this.props.navigation.navigate('HotelList', { title: city });
     }
 
     render() {

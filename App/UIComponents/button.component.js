@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import TouchableOpacity from './touchableOpacity.component';
 import Text from './text.component';
-import { Secondary, OnPrimary } from '../Theme/colors';
+import { Secondary, OnPrimary, Primary } from '../Theme/colors';
 import { normalize } from '../Utils/dimensionHandler.utils';
 
 const Button = ({
@@ -22,6 +22,7 @@ const Button = ({
 
     switch (type) {
         case 'icon-button':
+        case 'fab':
             return (
                 <TouchableOpacity
                     disabled={disabled}
@@ -56,6 +57,8 @@ function getButtonStyle(type) {
             return iconButton;
         case 'wide':
             return wideButtonStyle;
+        case 'fab':
+            return fabButtonStyle;
         default:
             return roundStyles;
     }
@@ -66,6 +69,19 @@ const iconButton = StyleSheet.create({
 
     }
 })
+
+
+const fabButtonStyle = StyleSheet.create({
+    buttonStyle: {
+        height: 50,
+        width: 50,
+        borderRadius: 25,
+        backgroundColor: Primary,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+
 
 const roundStyles = StyleSheet.create({
     buttonStyle: {

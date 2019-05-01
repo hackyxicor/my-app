@@ -10,6 +10,7 @@ import TouchableHighlight from './touchableHighlight.component';
 import Button from './button.component';
 import Tag from './tag.component';
 import TouchableWithoutFeedback from './touchableWithoutFeedback.component';
+import Counter from './counter.component';
 
 export {
     View,
@@ -22,5 +23,6 @@ export {
     TouchableHighlight,
     Button,
     Tag,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    Counter
 }

@@ -21,7 +21,7 @@ export default function bookingReducer(state = defaultState, action) {
         case SET_CHECKOUT_DATE:
             return { ...state, checkoutDate: action.payload };
         case SET_ROOMS:
-            return { ...state, rooms: action.rooms };
+            return { ...state, rooms: action.payload };
         default:
             return state;
     }

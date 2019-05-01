@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
 import { TouchableHighlight, Modal } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
-import { View, Text, TextInput, TouchableOpacity, FlatList, Button } from '../../UIComponents';
-import { SecondaryText, Primary, OnPrimary } from '../../Theme/colors';
+import { View, Text, Button, ScrollView, FlatList } from '../../UIComponents';
+import { SecondaryText, Primary, OnPrimary, Secondary } from '../../Theme/colors';
 import { normalize } from '../../Utils/dimensionHandler.utils';
-import cities from '../../Mock/cities';
-import ListItem from '../ListItem/listItem.component';
 import gStyle from '../../Theme/styles';
+import RoomComponent from '../RoomComponent/room.component';
 
 class RoomPicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalVisible: false,
-            adults: 2,
-            rooms: 1,
-            child: 0
+            modalVisible: true,
+            rooms: this.props.rooms
         }
     }
 
@@ -25,7 +21,18 @@ class RoomPicker extends Component {
     }
 
     getContent = () => {
-        return `${this.state.adults} Adults, ${this.state.rooms} Rooms`;
+        const { rooms } = this.state;
+        let adults = 0;
+        let child = 0;
+
+        rooms.forEach((room) => {
+            if (room && typeof room == 'object') {
+                adults += room.adult;
+                child += room.child;
+            }
+        })
+
+        return `${adults} Adults, ${child > 0 ? `${child} Children` : ''} ${this.state.rooms.length} Rooms`;
     }
 
     getTitleElement() {
@@ -38,7 +45,35 @@ class RoomPicker extends Component {
         );
     }
 
+    updateRoom = (index, room) => {
+        const newRooms = [...this.state.rooms];
+        newRooms[index] = room;
+        this.setState({ rooms: newRooms }, () => this.props.callback('rooms', this.state.rooms));
+    }
+
+    removeRoom = (index) => {
+        if (index == 0) {
+            return;
+        }
+
+        const newRooms = [...this.state.rooms];
+        delete newRooms[index];
+        this.setState({ rooms: newRooms }, () => this.props.callback('rooms', this.state.rooms));
+    }
+
+    addRoom = () => {
+        const newRooms = [...this.state.rooms];
+        const room = {
+            adult: 1,
+            child: 0
+        };
+
+        newRooms.push(room);
+        this.setState({ rooms: newRooms }, () => this.props.callback('rooms', this.state.rooms));
+    }
+
     RenderRoomPicker = () => {
+        const { rooms } = this.state;
         return (
             <View style={{ flex: 1 }} >
                 <Button
@@ -51,9 +86,44 @@ class RoomPicker extends Component {
                 />
                 <View style={styles.searchWrapper} >
                     <View style={{ flex: 1, padding: 15, alignItems: 'flex-start', justifyContent: 'flex-end' }} >
-                        <Text style={[gStyle.h2, gStyle.bold, gStyle.onPrimary]} >{this.getContent()}</Text>
+                        <Text style={[gStyle.h3, gStyle.bold, gStyle.onPrimary]} >{this.getContent()}</Text>
                     </View>
                 </View>
+                <FlatList
+                    style={{ flex: 1 }}
+                    contentContainerStyle={{ paddingBottom: 150 }}
+                    data={rooms}
+                    renderItem={({ item, index }) => {
+                        if (item) {
+                            return (
+                                <RoomComponent
+                                    key={index}
+                                    showRemoveButton={!(index == 0)}
+                                    roomCount={index}
+                                    adult={item.adult}
+                                    child={item.child}
+                                    callback={this.updateRoom}
+                                    remove={this.removeRoom}
+                                />
+                            )
+                        }
+                        return null
+                    }}
+                />
+                <Button
+                    buttonContent="Proceed"
+                    type="bottom-stick"
+                    onPress={() => this.setModalVisible(false)}
+                    buttonStyle={{ position: 'absolute', top: normalize(570), right: 0, zIndex: 2 }}
+                />
+                <Button
+                    type='fab'
+                    iconName="ios-add"
+                    iconSize={32}
+                    iconColor={OnPrimary}
+                    buttonStyle={{ position: 'absolute', top: normalize(520), right: 20, zIndex: 2 }}
+                    onPress={this.addRoom}
+                />
             </View>
         )
     }
@@ -80,9 +150,7 @@ class RoomPicker extends Component {
                         onRequestClose={() => this.setModalVisible(false)}
                         transparent={false}
                         visible={this.state.modalVisible}>
-                        <View stlye={{ flex: 1, flexDirection: 'column' }}>
-                            <this.RenderRoomPicker />
-                        </View>
+                        <this.RenderRoomPicker />
                     </Modal>
                 </View>
             </TouchableHighlight>
