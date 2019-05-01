@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { View, Text, Counter, Button } from '../../UIComponents';
 import gStyle from '../../Theme/styles';
-import { OnPrimary } from '../../Theme/colors';
+import { OnPrimary, ErrorColor } from '../../Theme/colors';
 
 class RoomComponent extends Component {
     constructor(props) {
@@ -11,6 +11,10 @@ class RoomComponent extends Component {
             adult: props.adult,
             child: props.child
         }
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.setState({ adult: newProps.adult, child: newProps.child })
     }
 
     updateNumberOfAdults = (newCount) => {
@@ -30,7 +34,7 @@ class RoomComponent extends Component {
     }
 
     render() {
-        const { roomCount, showRemoveButton = true } = this.props;
+        const { roomCount, showRemoveButton } = this.props;
         const { adult, child } = this.state;
 
         return (
@@ -48,9 +52,10 @@ class RoomComponent extends Component {
                                     type='icon-button'
                                     iconName="md-close"
                                     iconSize={32}
-                                    iconColor={OnPrimary}
+                                    iconColor={ErrorColor}
                                     onPress={this.remove}
-                                /> : null
+                                />
+                                : null
                         }
                     </View>
                 </View>

@@ -16,6 +16,12 @@ class Counter extends PureComponent {
         }
     }
 
+    componentWillReceiveProps(newProps, props) {
+        if (props.initialCount != newProps.initialCount) {
+            this.setState({ count: newProps.initialCount })
+        }
+    }
+
     add = () => {
         const { maxCount } = this.props;
         const newCount = this.state.count + 1;
@@ -37,7 +43,6 @@ class Counter extends PureComponent {
     }
 
     callback = (count) => {
-        console.log('counter', this.props.callback, count)
         this.props.callback(count);
     }
 

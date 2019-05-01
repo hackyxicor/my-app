@@ -12,5 +12,5 @@ export const OnPrimary = '#FFFFFF';
 export const DarkBackground = '#f2f2f2';
 export const Success = '#4BB543';
 export const Warning = '#FFCC00';
-export const Error = '#CC3300';
+export const ErrorColor = '#CC3300';
 export const Info = '#3498DB';

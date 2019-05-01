@@ -52,3 +52,9 @@ export function GetRoomContentFromRooms(rooms) {
 export function DisplayDate(date) {
     return moment(date, GLOBAL.API_DATE_FORMAT).format(GLOBAL.DISPLAY_DATE_FORMAT)
 }
+
+export function RemoveItemFromArray(arr, index) {
+    const newArr = [...arr];
+    newArr.splice(index, 1);
+    return newArr
+}

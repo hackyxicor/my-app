@@ -6,7 +6,7 @@ import { SecondaryText, Primary, OnPrimary, Secondary } from '../../Theme/colors
 import { normalize } from '../../Utils/dimensionHandler.utils';
 import gStyle from '../../Theme/styles';
 import RoomComponent from '../RoomComponent/room.component';
-import { GetRoomContentFromRooms } from '../../Utils/common.utils';
+import { GetRoomContentFromRooms, RemoveItemFromArray } from '../../Utils/common.utils';
 
 class RoomPicker extends Component {
     constructor(props) {
@@ -15,6 +15,10 @@ class RoomPicker extends Component {
             modalVisible: false,
             rooms: this.props.rooms
         }
+    }
+
+    componentWillReceiveProps(newPros) {
+        this.setState({ rooms: newPros.rooms })
     }
 
     setModalVisible = (visible) => {
@@ -47,8 +51,7 @@ class RoomPicker extends Component {
             return;
         }
 
-        const newRooms = [...this.state.rooms];
-        delete newRooms[index];
+        const newRooms = RemoveItemFromArray([...this.state.rooms], index)
         this.setState({ rooms: newRooms }, () => this.props.callback('rooms', this.state.rooms));
     }
 
@@ -94,7 +97,7 @@ class RoomPicker extends Component {
                                     adult={item.adult}
                                     child={item.child}
                                     callback={this.updateRoom}
-                                    remove={this.removeRoom}
+                                    remove={() => this.removeRoom(index)}
                                 />
                             )
                         }

@@ -7,7 +7,6 @@ import { GetHotelsPricingAction } from '../Actions/index.actions';
 function* fetchHotels() {
     yield put({ type: LOADING_HOTELS, payload: true });
     const result = yield Api.GetHotels();
-    console.log('result', result)
     yield put({ type: SET_HOTELS, payload: result.data })
     yield put(GetHotelsPricingAction())
 }
