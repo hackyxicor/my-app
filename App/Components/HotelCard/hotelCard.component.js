@@ -20,7 +20,7 @@ const HotelCard = ({
                 <Image source={{ uri: 'https://cdn.pixabay.com/photo/2016/03/28/09/34/bedroom-1285156_1280.jpg' }} style={styles.image} />
             </View>
             <View style={{ padding: 15 }} >
-                <HotelTags 
+                <HotelTags
                     tags={['RATING: 3/5', 'STANDARD', 'HOTEL', 'COUPLE FRIENDLY']}
                 />
                 <View style={styles.hotelDetailContainer} >
@@ -60,7 +60,19 @@ const HotelCard = ({
                     <Placeholder
                         isReady={!pricingLoading}
                         animation="fade"
-                        whenReadyRender={() => <Button disabled={!hotelPrice} type={'wide'} onPress={() => book(hotel)} buttonContent={hotelPrice ? 'BOOK' : 'SOLD OUT'} />}
+                        whenReadyRender={() => (
+                            <Button
+                                disabled={!hotelPrice}
+                                type={'wide'}
+                                onPress={() => {
+                                    if (hotelPrice) {
+                                        book(hotel)
+                                    }
+                                }}
+                                buttonContent={hotelPrice ? 'BOOK' : 'SOLD OUT'}
+                                buttonStyle={!hotelPrice ? { backgroundColor: Inactive, borderColor: Inactive } : {}}
+                            />
+                        )}
                     >
                         <Line style={{ height: 45, width: '100%', backgroundColor: Inactive }} />
                     </Placeholder>

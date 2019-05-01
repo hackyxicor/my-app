@@ -106,14 +106,14 @@ class RoomPicker extends Component {
                     iconName="ios-add"
                     iconSize={32}
                     iconColor={OnPrimary}
-                    buttonStyle={{ position: 'absolute', top: normalize(520), right: 20, zIndex: 2 }}
+                    buttonStyle={{ position: 'absolute', top: normalize(515), right: 20, zIndex: 2 }}
                     onPress={this.addRoom}
                 />
                 <Button
                     buttonContent="Proceed"
                     type="bottom-stick"
                     onPress={() => this.setModalVisible(false)}
-                    buttonStyle={{ position: 'absolute', top: normalize(570), right: 0, zIndex: 2 }}
+                    buttonStyle={{ position: 'absolute', top: normalize(575), right: 0, zIndex: 2 }}
                 />
             </View>
         )

@@ -48,7 +48,7 @@ class CityPicker extends Component {
                 onPress={this.onConfirm}
                 style={[{ width: '80%', marginHorizontal: '3%' }, this.props.ButtonStyle]}
             >
-                <Text style={[{ fontSize: 20 }, this.props.ButtonTextStyle]}>{this.props.ButtonText ? this.props.ButtonText : "送出"}</Text>
+                <Text style={[{ fontSize: 20 }, this.props.ButtonTextStyle]}>{this.props.ButtonText ? this.props.ButtonText : ''}</Text>
             </TouchableHighlight>
         )
     }

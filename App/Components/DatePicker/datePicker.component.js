@@ -33,6 +33,7 @@ const DatePickerButton = ({
             placeholder={getPlaceholder(checkIn, checkOut)}
             mode={'range'}
             markText=" "
+            blockBefore
             customButton={(onConfirm) => <Button buttonContent="Proceed" type="bottom-stick" onPress={onConfirm} />}
             onConfirm={(dates) => {
                 callback('checkIn', dates.startDate)
